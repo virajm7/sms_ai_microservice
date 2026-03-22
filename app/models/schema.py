@@ -17,3 +17,6 @@ class SMSResponse(BaseModel):
     raw_sms: str
     hash: str
     source: str
+    transaction_time: str
+    transaction_month: int
+    transaction_year: int

@@ -54,4 +54,5 @@ async def parse_sms(data: SMSRequest):
         "raw_sms": data.message,
         "hash": generate_hash(data.message),
         "source": "ai"
+        
     }
