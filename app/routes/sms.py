@@ -12,6 +12,13 @@ router = APIRouter(prefix="/api")
 @router.post("/parse-sms", response_model=SMSResponse)
 async def parse_sms(data: SMSRequest):
 
+    # 🔥 DEBUG LOG
+    print("\n========= NEW SMS RECEIVED =========")
+    print(f"USER ID: {data.user_id}")
+    print(f"MESSAGE: {data.message}")
+    print("====================================\n")
+
+
     # Step 1: AI parsing
     ai_result = await parse_with_ai(data.message)
 
