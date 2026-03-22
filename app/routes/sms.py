@@ -9,6 +9,7 @@ from app.services.utils import generate_transaction_id, generate_hash, format_me
 
 router = APIRouter(prefix="/api")
 
+
 @router.post("/parse-sms", response_model=SMSResponse)
 async def parse_sms(data: SMSRequest):
 
@@ -17,7 +18,6 @@ async def parse_sms(data: SMSRequest):
     print(f"USER ID: {data.user_id}")
     print(f"MESSAGE: {data.message}")
     print("====================================\n")
-
 
     # Step 1: AI parsing
     ai_result = await parse_with_ai(data.message)
@@ -38,10 +38,10 @@ async def parse_sms(data: SMSRequest):
         validated.get("category", "others")
     )
 
-    # Step 6: timestamp
-    timestamp = generate_timestamp(validated.get("date"))
+    # 🔥 STEP 6: TIME (FIXED)
+    time_data = generate_timestamp(validated.get("date"))
 
-    # Step 7: final response
+    # 🔥 STEP 7: FINAL RESPONSE (FIXED)
     return {
         "transaction_id": generate_transaction_id(),
         "user_id": data.user_id,
@@ -50,9 +50,14 @@ async def parse_sms(data: SMSRequest):
         "type": validated.get("type"),
         "merchant": formatted_merchant,
         "category": category,
-        "timestamp": timestamp,
+
+        # ✅ FIXED TIME FIELDS
+        "timestamp": time_data["timestamp"],
+        "transaction_time": time_data["transaction_time"],
+        "transaction_month": time_data["transaction_month"],
+        "transaction_year": time_data["transaction_year"],
+
         "raw_sms": data.message,
         "hash": generate_hash(data.message),
         "source": "ai"
-        
     }
