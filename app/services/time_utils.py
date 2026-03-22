@@ -1,17 +1,23 @@
 from datetime import datetime
 
-def generate_timestamp(date_str=None):
-    if date_str:
-        try:
-            dt = datetime.strptime(date_str, "%Y-%m-%d")
-        except:
-            dt = datetime.now()
-    else:
-        dt = datetime.now()
+def generate_timestamp(date_str: str):
+    try:
+        # input like 2026-03-11
+        date_obj = datetime.strptime(date_str, "%Y-%m-%d")
 
-    return {
-        "timestamp": dt.isoformat(),
-        "transaction_time": dt.strftime("%H:%M:%S"),
-        "transaction_month": dt.month,
-        "transaction_year": dt.year
-    }
+        # add current time
+        now = datetime.now()
+
+        final = datetime(
+            year=date_obj.year,
+            month=date_obj.month,
+            day=date_obj.day,
+            hour=now.hour,
+            minute=now.minute,
+            second=now.second
+        )
+
+        return final.isoformat()
+
+    except:
+        return datetime.now().isoformat()
