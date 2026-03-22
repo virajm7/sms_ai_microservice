@@ -41,23 +41,22 @@ async def parse_sms(data: SMSRequest):
     # 🔥 STEP 6: TIME (FIXED)
     time_data = generate_timestamp(validated.get("date"))
 
-    # 🔥 STEP 7: FINAL RESPONSE (FIXED)
     return {
-        "transaction_id": generate_transaction_id(),
-        "user_id": data.user_id,
-        "amount": validated.get("amount"),
-        "currency": "INR",
-        "type": validated.get("type"),
-        "merchant": formatted_merchant,
-        "category": category,
+    "transaction_id": generate_transaction_id(),
+    "user_id": data.user_id,
+    "amount": validated.get("amount"),
+    "currency": "INR",
+    "type": validated.get("type"),
+    "merchant": formatted_merchant,
+    "category": category,
 
-        # ✅ FIXED TIME FIELDS
-        "timestamp": time_data["timestamp"],
-        "transaction_time": time_data["transaction_time"],
-        "transaction_month": time_data["transaction_month"],
-        "transaction_year": time_data["transaction_year"],
+    # 🔥 SAFE ACCESS (NO CRASH)
+    "timestamp": time_data.get("timestamp"),
+    "transaction_time": time_data.get("transaction_time"),
+    "transaction_month": time_data.get("transaction_month"),
+    "transaction_year": time_data.get("transaction_year"),
 
-        "raw_sms": data.message,
-        "hash": generate_hash(data.message),
-        "source": "ai"
-    }
+    "raw_sms": data.message,
+    "hash": generate_hash(data.message),
+    "source": "ai"
+}
